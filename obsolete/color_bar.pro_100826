@@ -1,0 +1,159 @@
+pro color_bar,position=position,lim=lim $
+    ,ct=ct,alone=alone,right=right,left=left,up=up,down=down $
+    ,whitebg=whitebg,bartitle=bartitle,titlegap=titlegap
+;==============================================================================
+;                               Colorbar program
+;    
+;                                                                    2007.03.17
+;                                                                    Doosu,Yoon
+;
+; input parameter
+;   position : [xpos(1),ypos(1),xpos(2),ypos(2)]
+;       ex) position = [20,20,30,150]
+;   lim : [low,high]    <- contour value
+;       ex) lim = [0,5]
+;   ct  : the number of color table    
+;
+; option 
+;   alone    : if you draw only the color bar.
+;   whitebg  : if you draw on white background at colorbar alone case.
+;   right : if you draw the right color bar.
+;
+; Modified :
+;   2007.03.19 - added option whitebg & solve returning previous ct
+;                by using tvlct
+;   2007.07.29 - change vertical option to right option
+;              - add bar title option
+;              - add up,left,down which the postion of ticklabel and
+;                bar title
+;   2007.08.29 - solve the lower limit bug at the whitebg case
+;==============================================================================
+device, decomposed=0
+device, retain=2
+if not keyword_set(position) then position=[20,20,500,30]
+if not keyword_set(titlegap) then titlegap=10.
+if (not keyword_set(right)) and (not keyword_set(left)) and $
+   (not keyword_set(up)) and (not keyword_set(down)) then up = 1
+
+;------------------------------------------------------------------------------
+; Generates the ramp that will show the colors.
+;------------------------------------------------------------------------------
+xsize=position[2]-position[0]
+ysize=position[3]-position[1]
+if (keyword_set(right)) or (keyword_set(left)) then begin 
+   value=ysize & nvalue=xsize
+endif else begin
+   value=xsize & nvalue=ysize
+endelse
+
+aux=lim(0)+(lim(1)-lim(0))*findgen(value)/float(value)
+aux2=rebin(aux,value,nvalue)
+
+;------------------------------------------------------------------------------
+; lower limit shows true color at the whitebg case
+;------------------------------------------------------------------------------
+nlev=300
+tmplevs=(findgen(nlev)+1)/float(nlev)*(lim[1]-lim[0]) + lim[0]
+
+if keyword_set(whitebg) then begin
+   levs = fltarr(nlev+2)
+   levs[0] = min(tmplevs) - (tmplevs[1]-tmplevs[0])*100.
+   levs[1:nlev] = tmplevs[*]
+   levs[nlev+1] = max(tmplevs) + (tmplevs[nlev-1]-tmplevs[nlev-2])*100.
+   back=255
+   col =0
+endif else begin
+   levs = tmplevs
+   back=0
+   col=255
+endelse
+;------------------------------------------------------------------------------
+; construct the bar
+;------------------------------------------------------------------------------
+if keyword_set(alone) then begin
+   if keyword_set(right) then $
+      window,0,xs=position[2]+titlegap+10, ys=position[3]+10 $
+     else $
+      window,0,xs=position[2]+10, ys=position[3]+titlegap+20
+   if keyword_set(whitebg) then begin
+      tvlct,r,g,b,/get
+      tvlct,255,255,255,255
+      tvlct,0,0,0,0
+   endif else begin
+      tvlct,r,g,b,/get
+      tvlct,0,0,0,255
+   endelse
+   contour,aux2,aux,findgen(nvalue),ystyle=5,xstyle=5,/fill $
+          ,pos=position,/dev,levels=levs,/nodata,background=back,color=col
+   tvlct,r,g,b
+;   endif else begin
+;      contour,aux2,aux,findgen(nvalue),ystyle=5,xstyle=5,/fill $
+;             ,pos=position,/dev,levels=levs,/nodata
+;   endelse
+endif
+
+if (n_elements(ct) ne 0) then loadct,ct,/sil
+if keyword_set(right) or keyword_set(left) then begin
+   aux2 = rotate(aux2,1)
+   xx   = findgen(nvalue)
+   yy   = aux
+   axisp = 'y'
+   if keyword_set(right) then begin
+      opt1 = ''
+      opt2 = ',ytickformat="(a1)"'
+      pp   = '2'
+      sign = '+'
+   endif else begin
+      opt1 = ',ytickformat="(a1)"'
+      opt2 = ''
+      pp   = '0'
+      sign = '-'
+   endelse
+   if keyword_set(bartitle) then begin
+      bb = execute('posttx = float(position['+pp+'])'+ sign +'titlegap')
+      postty = float(position[1] + position[3])/2.
+      orient = 90.
+   endif
+endif else if keyword_set(up) or keyword_set(down) then begin
+   xx = aux
+   yy = findgen(nvalue)
+   axisp = 'x'
+   if keyword_set(up) then begin
+      opt1 = ''
+      opt2 = ',xtickformat="(a1)"'
+      pp   = '3'
+      sign = '+'
+   endif else begin
+      opt1 = ',xtickformat="(a1)"'
+      opt2 = ''
+      pp   = '1'
+      sign = '-'
+   endelse
+   if keyword_set(bartitle) then begin
+      posttx = float(position[0] + position[2])/2.
+      bb = execute('postty = float(position['+pp+'])'+ sign +'titlegap')
+      orient = 0.
+   endif
+endif
+;------------------------------------------------------------------------------
+; contour the bar
+;------------------------------------------------------------------------------
+contour,aux2,xx,yy,ystyle=5,xstyle=5,/fill $
+       ,pos=position,/dev,levels=levs,/noerase 
+;------------------------------------------------------------------------------
+; build the axis & title
+;------------------------------------------------------------------------------
+tvlct,r,g,b,/get
+tvlct,255,255,255,255
+tvlct,0,0,0,0
+drawaxis1 = 'axis,'+axisp+'axis=1,'+axisp+'range=lim,'+axisp+'style=1,'
+drawaxis1 = drawaxis1 +axisp+'ticklen=0.30,_EXTRA=extra,color=abs(back-255)'+opt1
+a1 = execute(drawaxis1)
+drawaxis2 = 'axis,'+axisp+'axis=0,'+axisp+'range=lim,'+axisp+'style=1,'
+drawaxis2 = drawaxis2 +axisp+'ticklen=0.30,_EXTRA=extra,color=abs(back-255)'+opt2
+a2 = execute(drawaxis2)
+if keyword_set(bartitle) then $
+   xyouts,posttx,postty,/dev,bartitle,alignment=0.5,orientation=orient $
+         ,color=abs(back-255)
+tvlct,r,g,b
+end

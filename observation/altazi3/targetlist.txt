@@ -1,0 +1,60 @@
+Tell_Ref
+2 ; Observatory - 1 for Lemmon, 2 for BOAO, 3 for SOAO, 4 for SNUO, 5 for CTIO, 0 for others
+2000. : Epoch of Source positions(2000. for J2000.0 or 1950. for B1950.0)
+-30 10 12; Latitude of Observatory
+-70 44 36; Longtitude of Observatory
+  HBC722  20  58  17.0   +43  53.8   14.00
+  AlpAnd  00  08  23.3   +29   5.4    2.06      B8IVpMnHg     56
+  AlpAql  19  50  47.0   +08  52.1    0.77            A7V    242
+  AlpCMa  06  45  08.9   -16  43.0   -1.46           A1Vm     13
+  AlpCol  05  39  38.9   -34   4.4    2.64          B7IVe    176
+  AlpCrB  15  34  41.3   +26  42.9    2.23        A0V+G5V    133
+  AlpCru  12  26  35.9   -63   5.9    1.33         B0.5IV    117
+  AlpEri  01  37  42.9   -57  14.2    0.46          B3Vpe    251
+  AlpGem  07  34  36.0   +31  53.3    1.98        A1V+A2V     14
+  AlpGru  22  08  14.0   -46  57.7    1.74           B7IV    236
+  AlpHyi  01  58  46.2   -61  34.2    2.86            F0V    153
+  AlpLeo  10  08  22.3   +11  58.0    1.35            B7V    329
+  AlpLyr  18  36  56.3   +38  47.0    0.03           A0Va     15
+  AlpMus  12  37  11.0   -69   8.1    2.69         B2IV-V    147
+  AlpOph  17  34  56.1   +12  33.6    2.08          A5III    219
+  AlpPeg  23  04  45.7   +15  12.3    2.49            B9V    148
+  AlpPsA  22  57  39.1   -29  37.3    1.16            A3V    100
+  AlpVir  13  25  11.6   -11   9.7    0.98   B1III-IV+B2V    159
+  BetAri  01  54  38.4   +20  48.5    2.64            A5V     79
+  BetCMa  06  22  42.0   -17  57.3    1.98       B1II-III     36
+  BetCMi  07  27  09.0   +08  17.4    2.90           B8Ve    276
+  BetCar  09  13  12.0   -69  43.0    1.68           A2IV    133
+  BetCen  14  03  49.4   -60  22.4    0.61          B1III    139
+  BetCru  12  47  43.2   -59  41.3    1.25        B0.5III     38
+  BetEri  05  07  51.0   -05   5.2    2.79          A3III    179
+  BetLeo  11  49  03.6   +14  34.3    2.14            A3V    121
+  BetLib  15  17  00.4   -09  23.0    2.61            B8V    230
+  BetLup  14  58  31.9   -43   8.0    2.68       B2III/IV    127
+  BetOri  05  14  32.3   -08  12.1    0.12           B8Ia     33
+  BetTau  05  26  17.5   +28  36.5    1.65          B7III     71
+  DelCen  12  08  21.5   -50  43.3    2.60         B2IVne    181
+  DelOri  05  32  00.4   00  -18.0    2.23         O9.5II    152
+  DelVel  08  44  42.2   -54  42.5    1.96            A1V     40
+  EpsCMa  06  58  37.5   -28  58.3    1.50           B2II     44
+  EpsOri  05  36  12.8   -01  12.1    1.70           B0Ia     87
+  EpsPer  03  57  51.2   +40   0.6    2.89      B0.5V+A2V    153
+  EpsSgr  18  24  10.3   -34  23.1    1.85        B9.5III    140
+  EtaCMa  07  24  05.7   -29  18.2    2.45           B5Ia     45
+  EtaOph  17  10  22.7   -15  43.5    2.43            A2V     26
+  EtaTau  03  47  29.1   +24   6.3    2.87         B7IIIe    215
+  GamBoo  14  32  04.7   +38  18.5    3.03          A7III    139
+  GamCen  12  41  31.0   -48  57.6    2.17           A1IV     81
+  GamCrv  12  15  48.4   -17  32.5    2.59     B8IIIpHgMn     41
+  GamGem  06  37  42.7   +16  24.0    1.93           A0IV     32
+  GamOri  05  25  07.9   +06  21.0    1.64          B2III     59
+  GamTrA  15  18  54.6   -68  40.8    2.89            A1V    214
+  IotCen  13  20  35.8   -36  42.7    2.75            A2V     85
+  LamSco  17  33  36.5   -37   6.2    1.63         B2IV+B    163
+  SigSgr  18  55  15.9   -26  17.8    2.02          B2.5V    201
+  TheAur  05  59  43.3   +37  12.8    2.62          A0pSi     49
+  TheSco  17  37  19.2   -42  59.9    1.87           F1II    105
+  ZetCen  13  55  32.4   -47  17.3    2.55         B2.5IV    219
+  ZetPer  03  54   7.9   +31  53.0    2.85           B1Ib     59
+  ZetTau  05  37  38.7   +21   8.6    3.00        B4IIIpe    310
+  ZetVir  13  34  41.6   00  -35.8    3.37            A3V    173
