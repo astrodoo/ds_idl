@@ -1,3 +1,5 @@
+forward_function diff
+
 pro xrk4
 ;====================================================================
 ;               example code for Runge-Kutta 4th in IDL

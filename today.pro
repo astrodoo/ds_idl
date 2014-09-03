@@ -32,7 +32,7 @@ function today,opt
 ;===================================================================================
 if not keyword_set(opt) then opt=''
 
-date_in = timestamp(10)
+date_in = cgtimestamp(10)
 
 mm = strmid(date_in,1,2)
 dd = strmid(date_in,3,2)
