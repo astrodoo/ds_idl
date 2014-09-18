@@ -63,10 +63,10 @@ tv,img,/true
 xyouts,xp,yp,/dev,title+'   ('+today()+')',color=fsc_color(col),charthick=tk*1.5,charsize=sz*1.5
 
 ; writig body
-for i=0,n_elements(bline)-1 do xyouts, xp, yp-lspace*(i+1),/dev,'* '+bline[i],color=fsc_color(col),charthick=tk,charsize=sz
+for i=0,n_elements(bline)-1 do xyouts, xp, yp-lspace*(i+1),/dev,bline[i],color=fsc_color(col),charthick=tk,charsize=sz
 
 ; save image to 'wall.jpg'
-write_jpeg,dir+'wall.jpg',tvrd(/true),/true
+write_jpeg,dir+'wall.jpg',tvrd(/true),/true,quality=100
 
 stop
 end
