@@ -142,8 +142,8 @@ while 1 do begin
       plots,[0,!d.x_size],[y,y],/dev,line=2 
 
    if not keyword_set(noinfo) then begin
-      xyouts,10,oldy-20,/dev,leg1+strtrim(x,2),charsize=2,_extra=extra
-      xyouts,10,oldy-40,/dev,leg2+strtrim(y,2),charsize=2,_extra=extra
+      xyouts,10,oldy-20,/dev,leg1+strtrim(x,2),charsize=2,_strict_extra=extra
+      xyouts,10,oldy-40,/dev,leg2+strtrim(y,2),charsize=2,_strict_extra=extra
    endif
 
 ;   print,x,y
@@ -173,12 +173,14 @@ while 1 do begin
 
     if mode then begin
        if not keyword_set(limits) then begin
+          print,'hello'
           exetxt3 = execute('minv = min(image'+target2+')')
           exetxt4 = execute('maxv = max(image'+target2+')')
        endif
        exetxt  = execute('tv,bytscl(image'+target2+', min=minv, max=maxv)') 
     endif else begin 
        if not keyword_set(limits) then begin
+          print,'hello'
           exetxt3 = execute('minv = min(image'+target1+')')
           exetxt4 = execute('maxv = max(image'+target1+')')
        endif
@@ -188,10 +190,10 @@ while 1 do begin
     if not keyword_set(noinfo) then $
        if mode then begin
           exetxt2 = execute('plots,'+nwln2+',/dev,line=2')
-          xyouts,10,nwy2-20,/dev,leg2+strtrim(y,2),charsize=2,_extra=extra
+          xyouts,10,nwy2-20,/dev,leg2+strtrim(y,2),charsize=2,_strict_extra=extra
        endif else begin
           exetxt2 = execute('plots,'+nwln1+',/dev,line=2')
-          xyouts,10,nwy1-20,/dev,leg1+strtrim(x,2),charsize=2,_extra=extra
+          xyouts,10,nwy1-20,/dev,leg1+strtrim(x,2),charsize=2,_strict_extra=extra
        endelse
 endwhile
 end
