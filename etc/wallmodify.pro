@@ -127,8 +127,6 @@ for i=0,n_elements(bline)-1 do tBody = text(xp, yp-lspace*(i+1),/dev,bline[i],co
 win.save,dir+'wall.jpg'
 endelse
 ;---------------------------------------------------------------------------------------
-
-stop
 end
 
 pro mktemplate
@@ -149,6 +147,5 @@ printf,lun1,'Hey!!!!!'
 printf,lun1,'Yo!!!!'
 printf,lun1,'body_end'
 free_lun,lun1
-stop
 end
 
