@@ -32,6 +32,7 @@ pro save_append,filename=filename,var1,var2,var3,var4,var5,var6,var7,var8,var9,v
 ; HISTORY:
 ;   written, 17 February 2014, by DooSoo Yoon.
 ;   2014.02.24: modify some bugs
+;   2014.09.25: overwrite the new data into old data if the variable name already exists
 ;  
 ; COPYRIGHT:
 ;   Copyright 2014-, All rights reserved by DooSoo Yoon.
@@ -74,7 +75,10 @@ endif else begin
   print,'old variables: ',vnames_old
 ;  dummy1 = routine_names(variables=0)
 ;  dummy1 = scope_varname(level=0)
+
+  for i=0,n_var-1 do strexec = execute(vnames[i]+'_dummy ='+vnames[i])      ; overwrite new data into old data if the variable name exists
   restore,filename=filename
+  for i=0,n_var-1 do strexec = execute(vnames[i]+'='+vnames[i]+'_dummy')
 ;  dummy2 = routine_names(variables=0)
 ;  dummy2 = scope_varname(level=0)
 

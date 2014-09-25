@@ -142,10 +142,10 @@ printf,lun1,'ypos   = 1000'
 printf,lun1,' '
 printf,lun1,'# content'
 printf,lun1,'title = Todo'
-printf,lun1,'body_begin'
-printf,lun1,'Hey!!!!!'
-printf,lun1,'Yo!!!!'
-printf,lun1,'body_end'
+printf,lun1,'* body_begin'
+printf,lun1,'* Hey!!!!!'
+printf,lun1,'* Yo!!!!'
+printf,lun1,'* body_end'
 free_lun,lun1
 end
 
