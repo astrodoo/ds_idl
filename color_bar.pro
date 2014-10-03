@@ -103,7 +103,7 @@ if not keyword_set(position) then begin
    xcl0 = float(!p.clip[0])/!d.x_size & xcl1 = float(!p.clip[2])/!d.x_size
    ycl0 = float(!p.clip[1])/!d.y_size & ycl1 = float(!p.clip[3])/!d.y_size
    bgap = 0.01 
-   if not keyword_set(btihck) then bthick = 0.03
+   if not keyword_set(bthick) then bthick = 0.03
    device=0 & normal=1
 
    case 1 of 
