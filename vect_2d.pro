@@ -53,7 +53,7 @@ if not keyword_set(asize) then asize=1.
 
 ss = size(vx)
 
-nx = fix(ss[1]/sample) & ny = fix(ss[2]/sample)
+nx = long(float(ss[1])/float(sample)) & ny = long(float(ss[2])/float(sample))
 
 vx2 = congrid(vx,nx,ny,/center)
 vy2 = congrid(vy,nx,ny,/center)
@@ -89,6 +89,13 @@ for j=0,ny-1 do begin
         endelse
     endfor
 endfor
+
+inDomain_ind = where(((xx1<xx2) ge !x.crange[0]) and ((xx1>xx2) le !x.crange[1])  $
+                 and ((yy1<yy2) ge !y.crange[0]) and ((yy1>yy2) le !y.crange[1]))
+xx1 = xx1(inDomain_ind)
+xx2 = xx2(inDomain_ind)
+yy1 = yy1(inDomain_ind)
+yy2 = yy2(inDomain_ind)
 
 arrow,xx1,yy1,xx2,yy2,/data,color=color,hsize=-1./5,hthick=3.,_strict_extra=extra
 
