@@ -1,4 +1,4 @@
-pro tvcoord, img, x, y, position=position, axes=axes, psx=psx , scale=scale, _extra=extra, imgsize=imgsize
+pro tvcoord, img, x, y, position=position, axes=axes, psx=psx , scale=scale, _extra=extra, imgsize=imgsize, true=true
 ;( =_=)++  =========================================================================
 ;
 ; NAME: 
@@ -67,40 +67,60 @@ if not keyword_set(position) then begin
    endif else position=[0.,0.]
 endif
 
+if not keyword_set(true) then true=0
+
 if not keyword_set(imgsize) then imgsize = 0.8
 
 sz = size(img,/dimension)
+
+case true of 
+  0: begin
+      xsz=sz[0] & ysz=sz[1]
+     end
+  1: begin
+      xsz=sz[1] & ysz=sz[2]
+     end
+  2: begin
+      xsz=sz[0] & ysz=sz[2]
+     end
+  3: begin
+      xsz=sz[0] & ysz=sz[1]
+     end
+  else: begin
+         print,'illegal true value'
+        end
+endcase
 
 if keyword_set(!d.name eq 'PS') then begin
    xsize = !d.x_size/!d.x_px_cm
    ysize = !d.y_size/!d.y_px_cm
    if not keyword_set(psx) then $
       psx = n_elements(axes) ? xsize*imgsize : xsize
-   psy=psx*float(sz[1])/sz[0]
+   psy=psx*float(ysz)/xsz
 
    print,'psx, psy [cm] = ',psx,psy
 endif
 
-if ((sz[0] ne n_elements(x)) or (sz[1] ne n_elements(y))) then $
+if ((xsz ne n_elements(x)) or (ysz ne n_elements(y))) then $
    message, 'image size should be equivalent with the size of x & y'
 
 if (!d.name eq 'X') then begin
    plot,x,y,/xst,/yst,/nodata,xrange=[min(x),max(x)],yrange=[min(y),max(y)] $
-       ,position=[position[0],position[1],position[0]+sz[0]-1,position[1]+sz[1]-1],/dev,_strict_extra=extra, xtickformat='(a1)', ytickformat='(a1)',/noerase
+       ,position=[position[0],position[1],position[0]+xsz-1,position[1]+ysz-1],/dev,_strict_extra=extra, xtickformat='(a1)', ytickformat='(a1)',/noerase
 
-   if keyword_set(scale) then tv,bytscl(img,max=max(img),min=min(img)),position[0],position[1] $
-      else tv,img,position[0],position[1]
+   if keyword_set(scale) then tv,bytscl(img,max=max(img),min=min(img)),position[0],position[1],true=true $
+      else tv,img,position[0],position[1],true=true
 
    if keyword_set(axes) then plot,x,y,/xst,/yst,/noerase,/nodata, xrange=[min(x),max(x)],yrange=[min(y),max(y)] $
-       ,position=[position[0],position[1],position[0]+sz[0]-1,position[1]+sz[1]-1],/dev,_strict_extra=extra
+       ,position=[position[0],position[1],position[0]+xsz-1,position[1]+ysz-1],/dev,_strict_extra=extra
 endif else if (!d.name eq 'PS') then begin
    plot,x,y,/xst,/yst,/nodata, xrange=[min(x),max(x)],yrange=[min(y),max(y)] $
        ,position=[position[0],position[1],position[0]+psx/xsize,position[1]+psy/ysize],/norm $
        ,_strict_extra=extra, xtickformat='(a1)', ytickformat='(a1)',/noerase
 
    if keyword_set(scale) then tv,bytscl(img,max=max(img),min(img)),position[0]*xsize,position[1]*ysize $
-                                ,/centimeter,xsize=psx,ysize=psy $
-      else tv,img,position[0]*xsize,position[1]*ysize,/centimeter,xsize=psx,ysize=psy
+                                ,/centimeter,xsize=psx,ysize=psy,true=true $
+      else tv,img,position[0]*xsize,position[1]*ysize,/centimeter,xsize=psx,ysize=psy,true=true
 
    if keyword_set(axes) then plot,x,y,/xst,/yst,/nodata,/noerase, xrange=[min(x),max(x)],yrange=[min(y),max(y)]  $
        ,position=[position[0],position[1],position[0]+psx/xsize,position[1]+psy/ysize],/norm $
