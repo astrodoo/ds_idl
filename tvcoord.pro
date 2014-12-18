@@ -37,6 +37,8 @@ pro tvcoord, img, x, y, position=position, axes=axes, psx=psx , scale=scale, _ex
 ;   imgsize: in, required, type= float, default= 0.8 (normalized value)
 ;      the relative size of the image to entire window size (only when "ON" option 
 ;      is activated with the plotting device of "PS")
+;   true: in, optional, one of (0,1,2,3), default=0
+;      the option 'true' in tv 
 ;      
 ; EXAMPLE:
 ;   idl> img=dist(500)
