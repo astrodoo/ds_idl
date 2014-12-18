@@ -1,4 +1,5 @@
 print, "START to DS Astronomy"
+compile_opt IDL2   ; defint32, strictarr
 device,decomposed=0
 device, retain=2
 !p.charsize=1.5

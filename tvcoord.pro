@@ -1,4 +1,4 @@
-pro tvcoord, img, x, y, position=position, on=on, psx=psx , scale=scale, _extra=extra, imgsize=imgsize
+pro tvcoord, img, x, y, position=position, axes=axes, psx=psx , scale=scale, _extra=extra, imgsize=imgsize
 ;( =_=)++  =========================================================================
 ;
 ; NAME: 
@@ -28,8 +28,8 @@ pro tvcoord, img, x, y, position=position, on=on, psx=psx , scale=scale, _extra=
 ;   position: in, optional, type= fltarr(2) (unit: pixel in 'X', normal in 'PS')
 ;      position, [x0,y0], for tv-ed image in device coordinate
 ;      if the plotting device is 'PS' not 'X', it will be automtically off.
-;   on: in, optional, type= boolean
-;      if given, the coordinate around the tv image will be plotted.
+;   axes: in, optional, type= boolean
+;      if given, the axes around the tv image will be plotted.
 ;   psx: in, optional, type= float (unit: cm)
 ;      if !d.name = 'PS' (postscript), this keyword indicates the width of x size 
 ;   scale: in, optional, type= boolean
@@ -61,7 +61,7 @@ pro tvcoord, img, x, y, position=position, on=on, psx=psx , scale=scale, _extra=
 ;===================================================================================
 
 if not keyword_set(position) then begin 
-   if keyword_set(on) then begin
+   if keyword_set(axes) then begin
       if keyword_set(!d.name eq 'PS') then position=[0.1,0.1] $
         else position=[100.,100.] 
    endif else position=[0.,0.]
@@ -75,7 +75,7 @@ if keyword_set(!d.name eq 'PS') then begin
    xsize = !d.x_size/!d.x_px_cm
    ysize = !d.y_size/!d.y_px_cm
    if not keyword_set(psx) then $
-      psx = n_elements(on) ? xsize*imgsize : xsize
+      psx = n_elements(axes) ? xsize*imgsize : xsize
    psy=psx*float(sz[1])/sz[0]
 
    print,'psx, psy [cm] = ',psx,psy
@@ -91,7 +91,7 @@ if (!d.name eq 'X') then begin
    if keyword_set(scale) then tv,bytscl(img,max=max(img),min=min(img)),position[0],position[1] $
       else tv,img,position[0],position[1]
 
-   if keyword_set(on) then plot,x,y,/xst,/yst,/noerase,/nodata, xrange=[min(x),max(x)],yrange=[min(y),max(y)] $
+   if keyword_set(axes) then plot,x,y,/xst,/yst,/noerase,/nodata, xrange=[min(x),max(x)],yrange=[min(y),max(y)] $
        ,position=[position[0],position[1],position[0]+sz[0]-1,position[1]+sz[1]-1],/dev,_strict_extra=extra
 endif else if (!d.name eq 'PS') then begin
    plot,x,y,/xst,/yst,/nodata, xrange=[min(x),max(x)],yrange=[min(y),max(y)] $
@@ -102,7 +102,7 @@ endif else if (!d.name eq 'PS') then begin
                                 ,/centimeter,xsize=psx,ysize=psy $
       else tv,img,position[0]*xsize,position[1]*ysize,/centimeter,xsize=psx,ysize=psy
 
-   if keyword_set(on) then plot,x,y,/xst,/yst,/nodata,/noerase, xrange=[min(x),max(x)],yrange=[min(y),max(y)]  $
+   if keyword_set(axes) then plot,x,y,/xst,/yst,/nodata,/noerase, xrange=[min(x),max(x)],yrange=[min(y),max(y)]  $
        ,position=[position[0],position[1],position[0]+psx/xsize,position[1]+psy/ysize],/norm $
        ,_strict_extra=extra
 endif

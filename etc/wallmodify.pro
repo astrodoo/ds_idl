@@ -30,7 +30,7 @@ pro wallmodify
 ; COPYRIGHT:
 ;   Copyright 2014-, All rights reserved by DooSoo Yoon.
 ;===================================================================================
-openr,lun1,'wallmodify.dat',/get_lun
+openr,lun1,'~/Desktop/wallmodify.dat',/get_lun
 
 ;default values
 col = 'yellow'
