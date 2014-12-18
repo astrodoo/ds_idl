@@ -29,14 +29,13 @@ pro tvcoord, img, x, y, position=position, axes=axes, psx=psx , scale=scale, _ex
 ;      position, [x0,y0], for tv-ed image in device coordinate
 ;      if the plotting device is 'PS' not 'X', it will be automtically off.
 ;   axes: in, optional, type= boolean
-;      if given, the axes around the tv image will be plotted.
-;   psx: in, optional, type= float (unit: cm)
+;      if given, the axes around the tv image will be plotted. Only when "PS" is on.
+;   psx: in, optional, type= float (unit: normal)
 ;      if !d.name = 'PS' (postscript), this keyword indicates the width of x size 
 ;   scale: in, optional, type= boolean
 ;      if given, automatically scaled like 'tvscl'
-;   imgsize: in, required, type= float, default= 0.8 (normalized value)
-;      the relative size of the image to entire window size (only when "ON" option 
-;      is activated with the plotting device of "PS")
+;   imgsize: in, required, type= float, default= 0.8 (normalized value). Only when both "axes" & "PS" options is on.
+;      the relative size of the image to entire window size 
 ;   true: in, optional, one of (0,1,2,3), default=0
 ;      the option 'true' in tv 
 ;      
@@ -97,10 +96,13 @@ if keyword_set(!d.name eq 'PS') then begin
    xsize = !d.x_size/!d.x_px_cm
    ysize = !d.y_size/!d.y_px_cm
    if not keyword_set(psx) then $
-      psx = n_elements(axes) ? xsize*imgsize : xsize
-   psy=psx*float(ysz)/xsz
+      psx = n_elements(axes) ? imgsize : 1.
 
-   print,'psx, psy [cm] = ',psx,psy
+   psy=psx*float(ysz)/xsz *xsize/ysize
+
+   print,'psx, psy [normal] = ',psx,psy
+
+   if (psy gt 1.) then print,"the image is over the whole canvas!"
 endif
 
 if ((xsz ne n_elements(x)) or (ysz ne n_elements(y))) then $
@@ -117,15 +119,15 @@ if (!d.name eq 'X') then begin
        ,position=[position[0],position[1],position[0]+xsz-1,position[1]+ysz-1],/dev,_strict_extra=extra
 endif else if (!d.name eq 'PS') then begin
    plot,x,y,/xst,/yst,/nodata, xrange=[min(x),max(x)],yrange=[min(y),max(y)] $
-       ,position=[position[0],position[1],position[0]+psx/xsize,position[1]+psy/ysize],/norm $
+       ,position=[position[0],position[1],position[0]+psx,position[1]+psy],/norm $
        ,_strict_extra=extra, xtickformat='(a1)', ytickformat='(a1)',/noerase
 
    if keyword_set(scale) then tv,bytscl(img,max=max(img),min(img)),position[0]*xsize,position[1]*ysize $
-                                ,/centimeter,xsize=psx,ysize=psy,true=true $
-      else tv,img,position[0]*xsize,position[1]*ysize,/centimeter,xsize=psx,ysize=psy,true=true
+                                ,/centimeter,xsize=psx*xsize,ysize=psy*ysize,true=true $
+      else tv,img,position[0]*xsize,position[1]*ysize,/centimeter,xsize=psx*xsize,ysize=psy*ysize,true=true
 
    if keyword_set(axes) then plot,x,y,/xst,/yst,/nodata,/noerase, xrange=[min(x),max(x)],yrange=[min(y),max(y)]  $
-       ,position=[position[0],position[1],position[0]+psx/xsize,position[1]+psy/ysize],/norm $
+       ,position=[position[0],position[1],position[0]+psx,position[1]+psy],/norm $
        ,_strict_extra=extra
 endif
 end
