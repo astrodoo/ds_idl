@@ -110,7 +110,7 @@ if ((xsz ne n_elements(x)) or (ysz ne n_elements(y))) then $
 
 if (!d.name eq 'X') then begin
    plot,x,y,/xst,/yst,/nodata,xrange=[min(x),max(x)],yrange=[min(y),max(y)] $
-       ,position=[position[0],position[1],position[0]+xsz-1,position[1]+ysz-1],/dev,_strict_extra=extra, xtickformat='(a1)', ytickformat='(a1)',/noerase
+       ,position=[position[0],position[1],position[0]+xsz-1,position[1]+ysz-1],/dev, xtickformat='(a1)', ytickformat='(a1)',/noerase
 
    if keyword_set(scale) then tv,bytscl(img,max=max(img),min=min(img)),position[0],position[1],true=true $
       else tv,img,position[0],position[1],true=true
@@ -120,7 +120,7 @@ if (!d.name eq 'X') then begin
 endif else if (!d.name eq 'PS') then begin
    plot,x,y,/xst,/yst,/nodata, xrange=[min(x),max(x)],yrange=[min(y),max(y)] $
        ,position=[position[0],position[1],position[0]+psx,position[1]+psy],/norm $
-       ,_strict_extra=extra, xtickformat='(a1)', ytickformat='(a1)',/noerase
+       ,xtickformat='(a1)', ytickformat='(a1)',/noerase
 
    if keyword_set(scale) then tv,bytscl(img,max=max(img),min(img)),position[0]*xsize,position[1]*ysize $
                                 ,/centimeter,xsize=psx*xsize,ysize=psy*ysize,true=true $
