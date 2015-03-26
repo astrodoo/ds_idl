@@ -107,7 +107,7 @@ tb=tmp_tb.xtb
 xsz=(256+xgap)*ncol+xc0 & ysz=thick*nrow+y0+70
 window,31,xs=xsz,ys=ysz
 for i=0,nct-1 do begin
-   col = i/nrow & row = i mod nrow
+   col = i/nrow & row = nrow - (i mod nrow)-1
    if (row eq 0) then opt = "" else opt = ",xtickformat='(a1)'"
    loadct,i,/sil
    tvscl,tb,col*(256+xgap)+xc0,row*thick+y0,/device
