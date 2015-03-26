@@ -1,4 +1,4 @@
-pro tvcoord, img, x, y, position=position, axes=axes, psx=psx , scale=scale, _extra=extra, imgsize=imgsize, true=true
+pro tvcoord, img, x, y, position=position, axes=axes, psx=psx , scale=scale, _extra=extra, imgsize=imgsize, true=true, black_axes=black_axes
 ;( =_=)++  =========================================================================
 ;
 ; NAME: 
@@ -30,6 +30,8 @@ pro tvcoord, img, x, y, position=position, axes=axes, psx=psx , scale=scale, _ex
 ;      if the plotting device is 'PS' not 'X', it will be automtically off.
 ;   axes: in, optional, type= boolean
 ;      if given, the axes around the tv image will be plotted. Only when "PS" is on.
+;   black_axes: in, optional, type= boolean
+;      the black color of axes, ticks, and x&y titles 
 ;   psx: in, optional, type= float (unit: normal)
 ;      if !d.name = 'PS' (postscript), this keyword indicates the width of x size 
 ;   scale: in, optional, type= boolean
@@ -60,7 +62,6 @@ pro tvcoord, img, x, y, position=position, axes=axes, psx=psx , scale=scale, _ex
 ; COPYRIGHT:
 ;   Copyright 2012-, All rights reserved by DooSoo Yoon.
 ;===================================================================================
-
 if not keyword_set(position) then begin 
    if keyword_set(axes) then begin
       if keyword_set(!d.name eq 'PS') then position=[0.1,0.1] $
@@ -71,6 +72,8 @@ endif
 if not keyword_set(true) then true=0
 
 if not keyword_set(imgsize) then imgsize = 0.8
+
+if keyword_set(black_axes) then axes_col = 0 else axes_col=255
 
 sz = size(img,/dimension)
 
@@ -115,8 +118,13 @@ if (!d.name eq 'X') then begin
    if keyword_set(scale) then tv,bytscl(img,max=max(img),min=min(img)),position[0],position[1],true=true $
       else tv,img,position[0],position[1],true=true
 
-   if keyword_set(axes) then plot,x,y,/xst,/yst,/noerase,/nodata, xrange=[min(x),max(x)],yrange=[min(y),max(y)] $
-       ,position=[position[0],position[1],position[0]+xsz-1,position[1]+ysz-1],/dev,_strict_extra=extra
+   if keyword_set(axes) then  begin
+      tvlct,r,g,b,/get
+      loadct,0,/sil
+      plot,x,y,/xst,/yst,/noerase,/nodata, xrange=[min(x),max(x)],yrange=[min(y),max(y)] $
+       ,position=[position[0],position[1],position[0]+xsz-1,position[1]+ysz-1],/dev,_strict_extra=extra, color=axes_col
+      tvlct,r,g,b
+   endif
 endif else if (!d.name eq 'PS') then begin
    plot,x,y,/xst,/yst,/nodata, xrange=[min(x),max(x)],yrange=[min(y),max(y)] $
        ,position=[position[0],position[1],position[0]+psx,position[1]+psy],/norm $
@@ -128,6 +136,6 @@ endif else if (!d.name eq 'PS') then begin
 
    if keyword_set(axes) then plot,x,y,/xst,/yst,/nodata,/noerase, xrange=[min(x),max(x)],yrange=[min(y),max(y)]  $
        ,position=[position[0],position[1],position[0]+psx,position[1]+psy],/norm $
-       ,_strict_extra=extra
+       ,_strict_extra=extra,color=axes_col
 endif
 end
