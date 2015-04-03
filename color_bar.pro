@@ -102,7 +102,8 @@ if (not keyword_set(right)) and (not keyword_set(left)) and $
 if not keyword_set(position) then begin
    xcl0 = float(!p.clip[0])/!d.x_size & xcl1 = float(!p.clip[2])/!d.x_size
    ycl0 = float(!p.clip[1])/!d.y_size & ycl1 = float(!p.clip[3])/!d.y_size
-   bgap = 0.01 
+;   bgap = 0.01 
+   bgap = 0. 
    if not keyword_set(bthick) then bthick = 0.03
    device=0 & normal=1
 
@@ -113,9 +114,14 @@ if not keyword_set(position) then begin
       n_elements(left)  : position=[xcl0-bgap-bthick,ycl0,xcl0-bgap,ycl1]
    endcase
 endif
-if not keyword_set(titlegap) then titlegap=0.01
-if not keyword_set(dual_gap) then dual_gap=titlegap
 if (not keyword_set(device)) and (not keyword_set(normal)) then device = 1
+if not keyword_set(titlegap) then begin
+   case 1 of
+      n_elements(normal) :  titlegap=0.05
+      n_elements(device) :  titlegap=20.
+   endcase
+endif
+if not keyword_set(dual_gap) then dual_gap=titlegap
 if not keyword_set(color) then color=255-!p.background
 
 ;------------------------------------------------------------------------------
