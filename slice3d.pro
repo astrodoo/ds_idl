@@ -173,14 +173,12 @@ while 1 do begin
 
     if mode then begin
        if not keyword_set(limits) then begin
-          print,'hello'
           exetxt3 = execute('minv = min(image'+target2+')')
           exetxt4 = execute('maxv = max(image'+target2+')')
        endif
        exetxt  = execute('tv,bytscl(image'+target2+', min=minv, max=maxv)') 
     endif else begin 
        if not keyword_set(limits) then begin
-          print,'hello'
           exetxt3 = execute('minv = min(image'+target1+')')
           exetxt4 = execute('maxv = max(image'+target1+')')
        endif
