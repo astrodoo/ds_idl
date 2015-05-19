@@ -4,7 +4,7 @@ pro color_bar,position=position,lim=lim $
     ,device=device,normal=normal $
     ,dual_lim=dual_lim, dual_title=dual_title, dual_gap=dual_gap, log=log $
     ,minor=minor, color=color $
-    ,bthick=bthick,nlevels=nlevels,_extra=extra
+    ,bthick=bthick,nlevels=nlevels,bargap=bargap,_extra=extra
 ;( =_=)++  =========================================================================
 ;
 ; NAME: 
@@ -39,7 +39,7 @@ pro color_bar,position=position,lim=lim $
 ;       would be determined by this keyword.
 ;   bartitle: in, optional, type= string
 ;       title of the bar
-;   titlegap: in, optional, type= float, default= 0.01
+;   titlegap: in, optional, type= float, default= 0.1 (normalized value)
 ;       the gap between bar and title.
 ;   device/normal: in, optional, type= boolean, default= device is on.
 ;       the way of positioning. Among the coordinate system in IDL, 'data' type is 
@@ -60,6 +60,8 @@ pro color_bar,position=position,lim=lim $
 ;       Ungiven "Position" option, it describes the normalized value of thickness in bar.
 ;   nlevels: in, optional, type= int, default=NONE
 ;       the number of levels in discrete color bar
+;   bargap: in, optional, type= float, default=0. (normalized value)
+;       the gap between the plot and the bar (only if not set the position)
 ;
 ; EXAMPLE:
 ;   IDL> a=dist(300)
@@ -102,26 +104,39 @@ if (not keyword_set(right)) and (not keyword_set(left)) and $
 if not keyword_set(position) then begin
    xcl0 = float(!p.clip[0])/!d.x_size & xcl1 = float(!p.clip[2])/!d.x_size
    ycl0 = float(!p.clip[1])/!d.y_size & ycl1 = float(!p.clip[3])/!d.y_size
-;   bgap = 0.01 
-   bgap = 0. 
+   if not keyword_set(bargap) then bargap=0.
    if not keyword_set(bthick) then bthick = 0.03
    device=0 & normal=1
 
    case 1 of 
-      n_elements(up)    : position=[xcl0,ycl1+bgap,xcl1,ycl1+bgap+bthick]
-      n_elements(down)  : position=[xcl0,ycl0-bgap-bthick,xcl1,ycl0-bgap]
-      n_elements(right) : position=[xcl1+bgap,ycl0,xcl1+bgap+bthick,ycl1]
-      n_elements(left)  : position=[xcl0-bgap-bthick,ycl0,xcl0-bgap,ycl1]
+      n_elements(up)    : position=[xcl0,ycl1+bargap,xcl1,ycl1+bargap+bthick]
+      n_elements(down)  : position=[xcl0,ycl0-bargap-bthick,xcl1,ycl0-bargap]
+      n_elements(right) : position=[xcl1+bargap,ycl0,xcl1+bargap+bthick,ycl1]
+      n_elements(left)  : position=[xcl0-bargap-bthick,ycl0,xcl0-bargap,ycl1]
    endcase
 endif
 if (not keyword_set(device)) and (not keyword_set(normal)) then device = 1
-if not keyword_set(titlegap) then begin
-   case 1 of
-      n_elements(normal) :  titlegap=0.05
-      n_elements(device) :  titlegap=20.
+
+if not keyword_set(titlegap) then titlegap=0.1 
+if keyword_set(device) then begin
+   case 1 of 
+      n_elements(up)    : titlegap=titlegap*!d.y_size
+      n_elements(down)  : titlegap=titlegap*!d.y_size
+      n_elements(right) : titlegap=titlegap*!d.x_size
+      n_elements(left)  : titlegap=titlegap*!d.x_size
    endcase
 endif
-if not keyword_set(dual_gap) then dual_gap=titlegap
+
+if not keyword_set(dual_gap) then dual_gap=titlegap $
+  else if keyword_set(device) then begin
+     case 1 of 
+        n_elements(up)    : dual_gap=dual_gap*!d.y_size
+        n_elements(down)  : dual_gap=dual_gap*!d.y_size
+        n_elements(right) : dual_gap=dual_gap*!d.x_size
+        n_elements(left)  : dual_gap=dual_gap*!d.x_size
+      endcase
+endif
+
 if not keyword_set(color) then color=255-!p.background
 
 ;------------------------------------------------------------------------------
@@ -275,4 +290,5 @@ if keyword_set(bartitle) then $
 if keyword_set(dual_title) then $
    dd2 = execute('xyouts,posttx2,postty2'+contopt+',dual_title,alignment=0.5,orientation=orient,color=color,_EXTRA=extra')
 tvlct,r,g,b
+
 end
