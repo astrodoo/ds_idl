@@ -1,4 +1,4 @@
-pro tv_polar,img,radius,theta,xout=xout,yout=yout,imgout=imgout,no_window=no_window,resol=resol $
+pro tv_polar,imgIN,radiusIN,thetaIN,xout=xout,yout=yout,imgout=imgout,no_window=no_window,resol=resol $
     ,no_roff=no_roff,maxr=maxr,position=position,th0=th0,scale=scale, extrapol=extrapol
 ;( =_=)++  =========================================================================
 ;
@@ -19,11 +19,11 @@ pro tv_polar,img,radius,theta,xout=xout,yout=yout,imgout=imgout,no_window=no_win
 ;   Graphic
 ;
 ; PARAMS:
-;   img: in, required, type= fltarr(2)
+;   imgIN: in, required, type= fltarr(2)
 ;      2D image data array in circular coordinate (r, theta).
-;   radius: in, required, type= fltarr(1)
+;   radiusIN: in, required, type= fltarr(1)
 ;      radius coordinate. This should be over the zero.
-;   theta: in, required, type=fltarr(1)
+;   thetaIN: in, required, type=fltarr(1)
 ;      theta coordinate.
 ;
 ; KEYWORDS:
@@ -31,7 +31,7 @@ pro tv_polar,img,radius,theta,xout=xout,yout=yout,imgout=imgout,no_window=no_win
 ;      output (x/y)-grid values in the dimension of resol
 ;   imgout: out, optional, type= fltarr(resol,resol)
 ;      output image converted to cartesian uniform grid
-;   resol: in, required, type= int, default= n_elements(radius)
+;   resol: in, required, type= int, default= n_elements(radius)*2
 ;      the resolution of the transformed tv-image into [resol x resol]
 ;   no_roff: in, optional, type= boolean
 ;      If given, inner boundary will be filled with the adjescent color.
@@ -61,39 +61,46 @@ pro tv_polar,img,radius,theta,xout=xout,yout=yout,imgout=imgout,no_window=no_win
 ; COPYRIGHT:
 ;   Copyright 2009-, All rights reserved by DooSoo Yoon.
 ;===================================================================================
-
-if not keyword_set(resol) then resol = n_elements(radius)
+if not keyword_set(resol) then resol = n_elements(radiusIN)
 if keyword_set(th0) then theta = theta + th0 else th0 = 0.
 
-n1=n_elements(radius)
-n2=n_elements(theta)
+n1=n_elements(radiusIN)
+n2=n_elements(thetaIN)
+
+img = imgIN
+radius = radiusIN
+theta = thetaIN
 
 ; in case that the theta is not whole circle (0~2pi), 
 ; add dummy theta array in theta & image.
 dth = theta[1]-theta[0]
-if (theta[n2-1]+dth-th0 lt 2.*!pi) then begin
-th2 = 2.*!pi + th0 - theta[n2-1] 
-nth_empty = ceil(th2/dth)
-th_empty = findgen(nth_empty)/float(nth_empty)*th2 + theta[n2-1] + dth 
+if (theta[n2-1]+2*dth-th0 lt 2.*!pi) then begin
+   print, 'make extra theta (current theta < 2 pi)'
+   th2 = 2.*!pi + th0 - theta[n2-1] 
+   nth_empty = ceil(th2/dth)
+   th_empty = findgen(nth_empty)/float(nth_empty)*th2 + theta[n2-1] + dth 
 
-n22 = n2 + nth_empty
-theta = [theta,th_empty]
-img2 = replicate(0,n1,n22)
-img2[*,0:n2-1] = img & img = img2
-n2 = n22
+   n22 = n2 + nth_empty
+   theta = [theta,th_empty]
+   img2 = replicate(0,n1,n22)
+   img2[*,0:n2-1] = img & img = img2
+   n2 = n22
 endif
 
 ; convert to retangular coordinate from polar coordinate
 x=fltarr(n1,n2)
 y=fltarr(n1,n2)
 tmp_img=fltarr(n1,n2)
-tmp_i=indgen(n1)#replicate(1,n2)
+;tmp_i=indgen(n1)#replicate(1,n2)
 tmp_r=radius#replicate(1,n2)
-tmp_j=replicate(1,n1)#indgen(n2)
+;tmp_j=replicate(1,n1)#indgen(n2)
 tmp_th=replicate(1,n1)#theta
-x[tmp_i+n1*tmp_j]=tmp_r*cos(tmp_th)
-y[tmp_i+n1*tmp_j]=tmp_r*sin(tmp_th)
-tmp_img[tmp_i+n1*tmp_j]=img
+;x[tmp_i+n1*tmp_j]=tmp_r*cos(tmp_th)
+;y[tmp_i+n1*tmp_j]=tmp_r*sin(tmp_th)
+;tmp_img[tmp_i+n1*tmp_j]=img
+x=tmp_r*cos(tmp_th)
+y=tmp_r*sin(tmp_th)
+tmp_img=img
 
 ; zoom out the image with range 0 ~ maxr
 if keyword_set(maxr) then begin
