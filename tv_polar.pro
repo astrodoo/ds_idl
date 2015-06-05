@@ -61,7 +61,7 @@ pro tv_polar,imgIN,radiusIN,thetaIN,xout=xout,yout=yout,imgout=imgout,no_window=
 ; COPYRIGHT:
 ;   Copyright 2009-, All rights reserved by DooSoo Yoon.
 ;===================================================================================
-if not keyword_set(resol) then resol = n_elements(radiusIN)
+if not keyword_set(resol) then resol = n_elements(radiusIN)*2
 if keyword_set(th0) then theta = theta + th0 else th0 = 0.
 
 n1=n_elements(radiusIN)
