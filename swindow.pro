@@ -40,7 +40,7 @@ if not keyword_set(xsize) then xsize=800
 if not keyword_set(ysize) then ysize=600
 
 screen = get_screen_size()
-xoff=30 & yoff=100
+xoff=100 & yoff=200
 if not keyword_set(x_scr) then x_scr=min([xsize,screen[0]-xoff])
 if not keyword_set(y_scr) then y_scr=min([ysize,screen[1]-yoff])
 
