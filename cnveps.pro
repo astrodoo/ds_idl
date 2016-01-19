@@ -74,6 +74,8 @@ case org_fmt of
 ; note that the resolution of ps is set to be 100dpi (-r100). If it was not set, the default resolution was 72dpi.
 ; One can expect the resolution of png (or jpg) image by the process that 
 ; one converts cm-size of the ps image into inch-size (0.393701 inch/cm) and multiplies 100dpi. 
+; Since the intrinsic resolution in idl is (!d.x_px_cm or !d.y_px_cm) 1000 implying 1000 pixels per cm (393.7 pixel per inch (kinds of dpi)), 
+; the resolution parameter (-r100) is better not over the 400 dpi.
               if keyword_set(png) then begin
                  spawn,'gs -dSAFER -dBATCH -dNOPAUSE -sDEVICE=png16m -dGraphicsAlphaBits=4 -r100 -dEPSCrop -sOutputFile='+out+' '+objname
                  return 
