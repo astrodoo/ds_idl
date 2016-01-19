@@ -124,3 +124,62 @@ polyedge,[x1,x2,x2,x1,x1],[y1,y1,y2,y2,y1],/data,color=fsc_color('yellow'),/tran
 
 stop
 end
+
+
+pro test3
+device,decomposed=0
+loadct,39,/sil
+
+nx=600
+x=findgen(nx)/100.
+y=findgen(nx)/100.
+
+img = dist(nx)
+
+;!p.background=255 & !p.color=0
+loadct,0,/sil
+;window,0,xs=800,ys=800
+
+x1=1. & x2=3.
+y1=1. & y2=4.
+
+; original image + edge line
+mkeps,'test_org',xs=20,ys=20.
+tvcoord,img,x,y,/axes,color=0
+tvlct,r,g,b,/get
+oplot,[x1,x2,x2,x1,x1],[y1,y1,y2,y2,y1],color=fsc_color('yellow'),thick=5
+epsfree
+
+; polyfill image + edge line
+mkeps,'test_poly',xs=20,ys=20.
+tvlct,r,g,b
+tvcoord,img,x,y,/axes,color=0
+polyfill,[x1,x2,x2,x1,x1],[y1,y1,y2,y2,y1],/data,color=fsc_color('yellow')
+oplot,[x1,x2,x2,x1,x1],[y1,y1,y2,y2,y1],color=fsc_color('yellow'),thick=5
+epsfree
+
+cnveps,'test_org.eps',/png
+cnveps,'test_poly.eps',/png
+
+img_org = read_png('test_org.png')
+img_poly = read_png('test_poly.png')
+
+alpha=0.3
+
+img_final = alpha*img_poly + (1.-alpha)*img_org
+
+; drawing the results
+mkeps,'test_final',xs=20.,ys=20.
+tvlct,r,g,b
+tv,img_final,/true
+epsfree
+
+imgsz = size(img_org,/dimension)
+window,xs=imgsz[1],ys=imgsz[2]
+tv,img_final,/true
+
+stop
+end
+
+
+
