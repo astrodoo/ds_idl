@@ -71,15 +71,18 @@ case org_fmt of
                  endcase
               endif
 ; convert EPS -> PNG or Jpeg via "gs" command
+; note that the resolution of ps is set to be 100dpi (-r100). If it was not set, the default resolution was 72dpi.
+; One can expect the resolution of png (or jpg) image by the process that 
+; one converts cm-size of the ps image into inch-size (0.393701 inch/cm) and multiplies 100dpi. 
               if keyword_set(png) then begin
-                 spawn,'gs -dSAFER -dBATCH -dNOPAUSE -sDEVICE=png16m -dGraphicsAlphaBits=4 -dEPSCrop -sOutputFile='+out+' '+objname
-                 stop 
+                 spawn,'gs -dSAFER -dBATCH -dNOPAUSE -sDEVICE=png16m -dGraphicsAlphaBits=4 -r100 -dEPSCrop -sOutputFile='+out+' '+objname
+                 return 
               endif else if keyword_set(jpg) then begin
-                 spawn,'gs -dSAFER -dBATCH -dNOPAUSE -sDEVICE=jpeg -dEPSCrop -sOutputFile='+out+' '+objname
-                 stop
+                 spawn,'gs -dSAFER -dBATCH -dNOPAUSE -sDEVICE=jpeg -r100 -dEPSCrop -sOutputFile='+out+' '+objname
+                 return
               endif else begin
                  print,'Something wrong!!'
-                 stop
+                 return
               endelse
            end
   else   : print,'You should input files in eps,jpg,png'
