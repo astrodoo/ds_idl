@@ -1,4 +1,4 @@
-pro cnveps,objname,outname,jpg=jpg,png=png
+pro cnveps,objname,outname=outname,jpg=jpg,png=png
 ;( =_=)++  =========================================================================
 ;
 ; NAME: 
