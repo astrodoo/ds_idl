@@ -26,11 +26,11 @@ function ring, xcenter, ycenter, radius, npoint=npoint, ra=ra, th=th, eccentric=
 ;
 ; PARAMS:
 ;   xcenter: in, required, type= float
-;          x coordinate for center of the circle
+;          x coordinate for center of the circle or ellipse
 ;   ycenter: in, required, type= float
-;          y coordinate for center of the circle
+;          y coordinate for center of the circle or ellispe
 ;   radius: in, required, type= float
-;          the radius of the circle
+;          the radius of the circle, or major length of the ellipse
 ;
 ; KEYWORDS:
 ;   npoint: in, required, type= int, default= 200
@@ -42,15 +42,15 @@ function ring, xcenter, ycenter, radius, npoint=npoint, ra=ra, th=th, eccentric=
 ;          in case you want to draw the part of the circle. 
 ;   eccentric: in, optional, type= float
 ;          eccentricity to draw ellipse  (r = a*(1-e)/(1+cos(th)))
-;   major_th: in, optional, type= float
-;          in case of given 'eccentric' kewyord, it choose the initiative angle of
+;   major_th: in, optional, type= float  (degree)
+;          in case of given 'eccentric' kewyord, it chooses the initiative angle of
 ;          the major axis
 ;        
 ; EXAMPLE:
 ;   idl> plots, ring(10,20,40),/data, color=30
 ; 
 ;  to draw ellipse
-;   idl> plots, ring(10,20,40,eccentric=0.5,major_th=!pi/2.),/data
+;   idl> plots, ring(10,20,40,eccentric=0.5,major_th=45.),/data
 ;
 ; HISTORY:
 ;   written, 01 January 2010, by DooSoo Yoon.
@@ -67,15 +67,21 @@ points = ( (th[1]-th[0]) / float(npoint-1))*findgen(npoint) + th[0]
 
 if keyword_set(eccentric) then begin
    if not keyword_set(major_th) then major_th=0.
-   radius = radius*(1.-eccentric^2.)/(1.+eccentric*cos(points-major_th))
+   major = radius
+   major_th = major_th * !dtor
+   radius = major*(1.-eccentric^2.)/(1.+eccentric*cos(points))
 endif
 
-if not keyword_set(ra) then $
-   x = xcenter + radius * cos(points) $
- else $
-   x = xcenter + radius * cos(points) / cos(ycenter * !pi/180.)
-
-y = ycenter + radius * sin(points)
+if keyword_set(ra) then x = xcenter + radius*cos(points) / cos(ycenter*!pi/180.) $
+ else begin
+   if keyword_set(eccentric) then begin
+      x = xcenter + major*eccentric*cos(major_th) + radius*cos(points+major_th)
+      y = ycenter + major*eccentric*sin(major_th) + radius*sin(points+major_th)
+   endif else begin 
+      x = xcenter + radius*cos(points) 
+      y = ycenter + radius*sin(points)
+   endelse
+endelse
 
 return, transpose([[x],[y]])
 end
