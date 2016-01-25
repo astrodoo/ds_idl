@@ -1,10 +1,8 @@
-pro color_bar,position=position,lim=lim $
-    ,ct=ct,right=right,left=left,up=up,down=down $
-    ,bartitle=bartitle,titlegap=titlegap $
-    ,device=device,normal=normal $
+pro color_bar,position=position,lim=lim,ct=ct,right=right,left=left,up=up,down=down $
+    ,bartitle=bartitle,titlegap=titlegap,device=device,normal=normal $
     ,dual_lim=dual_lim, dual_title=dual_title, dual_gap=dual_gap, log=log $
-    ,minor=minor, color=color $
-    ,bthick=bthick,nlevels=nlevels,bargap=bargap,_extra=extra
+    ,minor=minor, color=color,bthick=bthick,nlevels=nlevels,bargap=bargap $
+    ,xtickformat=xtickformat, ytickformat=ytickformat,_extra=extra
 ;( =_=)++  =========================================================================
 ;
 ; NAME: 
@@ -139,6 +137,10 @@ endif
 
 if not keyword_set(color) then color=255-!p.background
 
+if not keyword_set(xtickformat) then xtickformat=''
+if not keyword_set(ytickformat) then ytickformat=''
+
+print,ytickformat
 ;------------------------------------------------------------------------------
 ; Generates the ramp that will show the colors.
 ;------------------------------------------------------------------------------
@@ -188,19 +190,19 @@ if keyword_set(right) or keyword_set(left) then begin
    yy   = aux
    axisp = 'y'
    if keyword_set(right) then begin
-      opt1 = ''
+      opt1 = ',ytickformat="'+ytickformat+'"'
       if keyword_set(dual_lim) then begin
-         opt2 = ''
+         opt2 = ',ytickformat="'+ytickformat+'"'
          lim2 = dual_lim 
       endif else opt2 = ',ytickformat="(a1)"'
       pp   = '2' & pp2   = '0'
       sign = '+' & sign2 = '-'
    endif else begin
       if keyword_set(dual_lim) then begin 
-         opt1 = ''
+         opt1 = ',ytickformat="'+ytickformat+'"'
          lim1 = dual_lim 
       endif else opt1 = ',ytickformat="(a1)"'
-      opt2 = ''
+      opt2 = ',ytickformat="'+ytickformat+'"'
       pp   = '0' & pp2   = '2'
       sign = '-' & sign2 = '+'
    endelse
@@ -219,19 +221,19 @@ endif else if keyword_set(up) or keyword_set(down) then begin
    yy = findgen(nvalue)
    axisp = 'x'
    if keyword_set(up) then begin
-      opt1 = ''
+      opt1 = ',xtickformat="'+xtickformat+'"'
       if keyword_set(dual_lim) then begin 
-         opt2 = ''
+         opt2 = ',xtickformat="'+xtickformat+'"'
          lim2 = dual_lim 
       endif else opt2 = ',xtickformat="(a1)"'
       pp   = '3' & pp2   = '1'
       sign = '+' & sign2 = '-'
    endif else begin
       if keyword_set(dual_lim) then begin
-         opt1 = '' 
+         opt1 = ',xtickformat="'+xtickformat+'"'
          lim1 = dual_lim
       endif else opt1 = ',xtickformat="(a1)"'
-      opt2 = ''
+      opt2 = ',xtickformat="'+xtickformat+'"'
       pp   = '1' & pp2   = '3'
       sign = '-' & sign2 = '+'
    endelse
