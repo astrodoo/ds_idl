@@ -140,7 +140,6 @@ if not keyword_set(color) then color=255-!p.background
 if not keyword_set(xtickformat) then xtickformat=''
 if not keyword_set(ytickformat) then ytickformat=''
 
-print,ytickformat
 ;------------------------------------------------------------------------------
 ; Generates the ramp that will show the colors.
 ;------------------------------------------------------------------------------
