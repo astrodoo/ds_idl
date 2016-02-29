@@ -82,7 +82,7 @@ if (theta[n2-1]+2*dth-th0 lt 2.*!pi) then begin
 
    n22 = n2 + nth_empty
    theta = [theta,th_empty]
-   img2 = replicate(0,n1,n22)
+   img2 = replicate(0.,n1,n22)
    img2[*,0:n2-1] = img & img = img2
    n2 = n22
 endif
