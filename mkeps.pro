@@ -47,7 +47,8 @@ pro mkeps,fname, xsize=xsize, ysize=ysize, _extra=extra
 ;===================================================================================
 if not keyword_set(fname) then fname='test'
 if not keyword_set(xsize) then xsize=20.
-if not keyword_set(ysize) then ysize=xsize*!d.y_size/!d.x_size
+;if not keyword_set(ysize) then ysize=xsize*!d.y_size/!d.x_size
+if not keyword_set(ysize) then ysize=xsize*6./8.
 
 common mydev, mydevice, myPlot
 
