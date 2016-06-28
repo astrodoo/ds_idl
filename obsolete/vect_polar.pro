@@ -1,5 +1,5 @@
-pro vect_polar,vr,vth1,r,th,color=color,nsmp=nsmp,overplot=overplot $
-              ,asize=asize,rotframe=rotframe,opt=opt
+pro vect_polar,vr,vth1,r,th,color=color,nsmp=nsmp $
+              ,asize=asize,rotfvth=rotfvth,opt=opt
 ;===========================================================================
 ;              Drawing the velocity field at polar coordinate
 ;      
@@ -11,8 +11,6 @@ pro vect_polar,vr,vth1,r,th,color=color,nsmp=nsmp,overplot=overplot $
 ;  option
 ;     color    : color of arrows                          (default=0)
 ;     nsmp     : number of sample                         (default=1000)
-;     overplot : oerplot with previous contour
-;                without this option, it draws another window(0)
 ;     hsize    : size of arrows                           (default=0.6)
 ;     opt      : (1 : randomly distribution)              (default=3)
 ;                (2 : polar_uniformly distribution)
@@ -25,18 +23,12 @@ rend = r[s[1]-1]
 
 if not keyword_set(color) then color=0
 if not keyword_set(opt) then opt = 3
-if not keyword_set(overplot) then begin
-   loadct,0,/sil
-   window,0,xs=800,ys=800
-;   plot,[-rend,rend],[-rend,rend],/iso,/nodata,/xst,/yst
-   plot,[-!x.crange,!x.crange],[-!y.crange,!y.crange],/iso,/nodata,/xst,/yst
-   color=255
-endif
 if not keyword_set(asize) then asize=0.6
 
+
 vth = fltarr(s[1],s[2])
-if not keyword_set(rotframe) then rotframe=0
-for i=0,s[1]-1 do vth[i,*] = vth1[i,*] - r[i]*rotframe
+if not keyword_set(rotfvth) then rotfvth=0
+for i=0,s[1]-1 do vth[i,*] = vth1[i,*] - r[i]*rotfvth
 vmax = max(sqrt(vr*vr + vth*vth))    ; for normalization
 
 if not keyword_set(nsmp)  then nsmp=1000
