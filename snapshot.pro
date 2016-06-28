@@ -40,9 +40,9 @@ pro snapshot,fname,frame=frame,low=low,inverse=inverse,whitebg=whitebg,ps=ps
 ;        if given, the image will be extracted into '.eps' file, not '.png' file.
 ;
 ; EXAMPLE:
-;   idl> draw,'test',/whitebg
+;   idl> snapshot,'test',/whitebg
 ;  or
-;   idl> draw,'test',/ps 
+;   idl> snapshot,'test',/ps 
 ;
 ; HISTORY:
 ;   written, 02 August 2006, by DooSoo Yoon.
