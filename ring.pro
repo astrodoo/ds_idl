@@ -1,5 +1,5 @@
 function ring, xcenter, ycenter, radius, npoint=npoint, ra=ra, th=th, eccentric=eccentric $
-        ,major_th=major_th
+        ,major_th=major_th, xx=xx, yy=yy
 ;( =_=)++  =========================================================================
 ;
 ; NAME: 
@@ -45,9 +45,16 @@ function ring, xcenter, ycenter, radius, npoint=npoint, ra=ra, th=th, eccentric=
 ;   major_th: in, optional, type= float  (degree)
 ;          in case of given 'eccentric' kewyord, it chooses the initiative angle of
 ;          the major axis
+;   xx/yy: out, optional, type= fltarr(npoint)
+;          for drawing by oplot (not plots)
 ;        
 ; EXAMPLE:
 ;   idl> plots, ring(10,20,40),/data, color=30
+;
+;   or,
+;   idl> dummy = ring(10,50,50,xx=x,yy=y)
+;   idl> plot,findgen(100),/nodata
+;   idl> oplot,x,y
 ; 
 ;  to draw ellipse
 ;   idl> plots, ring(10,20,40,eccentric=0.5,major_th=45.),/data
@@ -82,6 +89,8 @@ if keyword_set(ra) then x = xcenter + radius*cos(points) / cos(ycenter*!pi/180.)
       y = ycenter + radius*sin(points)
    endelse
 endelse
+
+xx=x & yy=y
 
 return, transpose([[x],[y]])
 end

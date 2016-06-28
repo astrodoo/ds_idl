@@ -56,7 +56,11 @@ sz = size(vx,/dimension)
 sztot = sz[0]*sz[1]
 
 if not keyword_set(coord2d) then  $
-   coordarray,x,y,xout=x2d,yout=y2d
+   coordarray,x,y,xout=x2d,yout=y2d $
+ else begin
+   x2d = x
+   y2d = y
+endelse
 
 if keyword_set(sample) then begin
    if (sample ge sztot) then goto, Jump
@@ -115,5 +119,4 @@ yy2 = yy2(inDomain_ind)
 
 arrow,xx1,yy1,xx2,yy2,/data,color=color,hsize=-1./5,hthick=3.,_strict_extra=extra
 
-stot_2d,vx,vy,x,y
-
+end
