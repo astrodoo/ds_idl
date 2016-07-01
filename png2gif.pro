@@ -11,7 +11,7 @@ pro png2gif,fname,animate=animate,out=out,dir=dir,sample=sample,step=step
 ; DEPENDENCE:
 ;   Exclusive command 'convert', component of Imagemagick, is required to change
 ;   the type of images from .png to .gif
-;   Exclusive command 'gifsicle', component of Imagemagick, is requried to combine
+;   Exclusive command 'gifsicle' is requried to combine
 ;   all the gif files into animated-gif file.
 ;
 ; AUTHOR:

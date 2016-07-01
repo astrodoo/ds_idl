@@ -7,6 +7,9 @@ pro show_dsym,symsize=symsize
 ; PURPOSE:
 ;   Show the Symbols in dsym function (dsym.pro). 
 ;
+; DEPENDENCE:
+;   dsym.pro
+;
 ; AUTHOR:
 ;   DOOSOO YOON
 ;   Department of Astronomy, UW-Madison

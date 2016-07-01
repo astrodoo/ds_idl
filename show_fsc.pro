@@ -8,7 +8,7 @@ pro show_fsc
 ;   This routine is designed to show colors and its names in fsc_color procedure.
 ;
 ; DEPENDENCE:
-;   routine fsc_color (fsc_color.pro) is required.
+;   fsc_color.pro, which is in the package of Coyote's IDL Library (old version). 
 ;
 ; AUTHOR:
 ;   DOOSOO YOON

@@ -8,8 +8,7 @@ pro show_ct, ct, all=all
 ;   This routine is purposed to show color table in a brief and quick way.
 ;
 ; DEPENDENCE:
-;   Function which_ch (which_ct.pro) is required to search current color table
-;   in case of not given ct.
+;   which_ct.pro for finding current color table.   
 ;
 ; AUTHOR:
 ;   DOOSOO YOON

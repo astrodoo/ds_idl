@@ -9,7 +9,8 @@ pro helpro, proname, nline=nline
 ;   help users to figure out what the routine is.
 ;
 ; DEPENDENCE:
-;   which_routine.pro  ("$HOME/idl_lib/gbtidl/pro/toolbox/which_routine.pro")
+;   which_routine.pro  
+;   in the package of GBTIDL  (http://gbtidl.nrao.edu/)   
 ;
 ; AUTHOR:
 ;   DOOSOO YOON

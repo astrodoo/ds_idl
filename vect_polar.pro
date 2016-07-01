@@ -8,6 +8,9 @@ pro vect_polar,vr,vth,r,th,color=color $
 ; PURPOSE:
 ;   This routine is aimed to draw the velocity vector field in polar coordinate
 ;
+; DEPENDENCE:
+;   sample.pro for reducing the number of arrows
+;
 ; AUTHOR:
 ;   DOOSOO YOON
 ;   Shanghai Astronomical Observatory
