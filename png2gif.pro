@@ -81,5 +81,6 @@ for i=0,nfiles-1,step do begin
 endfor
 
 if keyword_set(animate) then $
-   spawn,'gifsicle '+dir+'/*'+fname+'*'+' --loop --verbose --colors 256 -> '+out+'.gif'
+;   spawn,'gifsicle '+dir+'/*'+fname+'*'+' --loop --verbose --colors 256 -> '+out+'.gif'
+   spawn,'gifsicle '+dir+'/*'+fname+'*'+' --verbose --colors 256 -> '+out+'.gif'
 end
