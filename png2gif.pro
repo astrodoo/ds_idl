@@ -80,7 +80,10 @@ for i=0,nfiles-1,step do begin
     spawn,'convert '+fnames[i]+' '+dir+'/'+fnames2[i]+'.gif'
 endfor
 
-if keyword_set(animate) then $
+if keyword_set(animate) then begin
 ;   spawn,'gifsicle '+dir+'/*'+fname+'*'+' --loop --verbose --colors 256 -> '+out+'.gif'
    spawn,'gifsicle '+dir+'/*'+fname+'*'+' --verbose --colors 256 -> '+out+'.gif'
+   spawn,'rm -rf '+dir
+endif
+
 end
