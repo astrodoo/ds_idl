@@ -58,7 +58,7 @@ function dsym, theSymbol, thick=thick, color=color, fill=fill
 ;
 ; EXAMPLE:
 ;
-;   IDL> plot, findgen(10), psym=dsym(16,color=fsc_color('blue'),/fill) 
+;   IDL> plot, findgen(10), psym=dsym(16,color=cgcolor('blue'),/fill) 
 ;
 ; HISTORY:
 ;   written, 17 November 2012, by DooSoo Yoon.

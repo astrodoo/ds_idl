@@ -39,6 +39,8 @@ pro show_dsym,symsize=symsize
 ;===================================================================================
 if not keyword_set(symsize) then symsize=3
 
+loadct,0,/sil
+!p.background=255 & !p.color=0
 window,/free,xs=500,ys=500
 x=indgen(6) & y=indgen(6)
 plot,x,y,xticklen=0.5,yticklen=0.5,xgrid=1,ygrid=1,/nodata,/iso,xminor=1,yminor=1 $
@@ -53,8 +55,8 @@ xpos = theSymbol mod 5 & ypos = 4 - (theSymbol / 5)   ; x & y positions
 tvlct,r,g,b,/get
 for i=0, 20 do begin
    xyouts, xpos[i]+0.1, ypos[i]+0.8, strtrim(i,2), color=0
-   plots, xpos[i]+0.5, ypos[i]+0.5,/data, psym=dsym(i,/fill),color=trp_color(fsc_color('blue'),alpha=0.3,/silent,/whitebg), symsize=symsize
-   plots, xpos[i]+0.5, ypos[i]+0.5,/data, psym=dsym(i),color=fsc_color('blue'), symsize=symsize
+   plots, xpos[i]+0.5, ypos[i]+0.5,/data, psym=dsym(i,/fill),color=trp_color(cgcolor('blue'),alpha=0.3,/silent,/whitebg), symsize=symsize
+   plots, xpos[i]+0.5, ypos[i]+0.5,/data, psym=dsym(i),color=cgcolor('blue'), symsize=symsize
 endfor
 tvlct,r,g,b
 end

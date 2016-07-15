@@ -77,14 +77,14 @@ tmp_tb = replicate({xtb:tb1},100)
 tb=tmp_tb.xtb
 
 ;draw a color table
-!p.background=fsc_color('white')
+!p.background=cgcolor('white')
 window,30,xs=550,ys=150
 tvlct,r1,g1,b1
 tvscl, tb, 20,0,/device
-plot,tb,xr=[0,255],position=[19,0,533,100],/dev,color=fsc_color('black'),/noerase $
+plot,tb,xr=[0,255],position=[19,0,533,100],/dev,color=cgcolor('black'),/noerase $
     ,/nodata, xticklen=0.2, /xminor,xst=9,/yticks,/yminor,ytickformat='(a1)'
-axis,xaxis=1,xr=[0,255],/xst,xticklen=0.2,color=fsc_color('black'),/xminor
-xyouts,150,130,title,color=fsc_color('black'), $
+axis,xaxis=1,xr=[0,255],/xst,xticklen=0.2,color=cgcolor('black'),/xminor
+xyouts,150,130,title,color=cgcolor('black'), $
        charsize=2,charthick=1.5,/device
 Goto, Finish
 
@@ -102,7 +102,7 @@ tb1 = indgen(256); & tb1 = rebin(tb1,512)
 tmp_tb = replicate({xtb:tb1},thick)
 tb=tmp_tb.xtb
 
-!p.background=fsc_color('white')
+!p.background=cgcolor('white')
 xsz=(256+xgap)*ncol+xc0 & ysz=thick*nrow+y0+70
 window,31,xs=xsz,ys=ysz
 for i=0,nct-1 do begin
@@ -112,12 +112,12 @@ for i=0,nct-1 do begin
    tvscl,tb,col*(256+xgap)+xc0,row*thick+y0,/device
    strexe= execute("plot,tb,xr=[0,255]"+ $
        ",position=[col*(256+xgap)+xc0-1,row*thick+y0,col*(256+xgap)+256+xc0+1,(row+1)*thick+y0]"+ $ 
-       ",/dev,color=fsc_color('black'),/noerase,/nodata, xticklen=0.2,/xminor,/xst"+ $
+       ",/dev,color=cgcolor('black'),/noerase,/nodata, xticklen=0.2,/xminor,/xst"+ $
        ",/yticks,/yminor,ytickformat='(a1)'"+opt)
-   xyouts,!p.clip[2]+5,!p.clip[1]+10,/dev,strtrim(i,2),color=fsc_color('black')
-   if (row eq (nrow-1)) then axis,xaxis=1,xr=[0,255],/xst,xticklen=0.2,color=fsc_color('black'),/xminor
+   xyouts,!p.clip[2]+5,!p.clip[1]+10,/dev,strtrim(i,2),color=cgcolor('black')
+   if (row eq (nrow-1)) then axis,xaxis=1,xr=[0,255],/xst,xticklen=0.2,color=cgcolor('black'),/xminor
 endfor
-xyouts, xsz/2-150, ysz-30, 'All Color Tables [0-74]',/dev,color=fsc_color('black'),charsize=3
+xyouts, xsz/2-150, ysz-30, 'All Color Tables [0-74]',/dev,color=cgcolor('black'),charsize=3
 
 Finish:
 tvlct,r0,g0,b0

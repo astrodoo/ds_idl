@@ -40,7 +40,7 @@ pro polyedge,x,y,device=device,normal=normal,data=data,color=color,alpha=alpha,t
 ;        only works when the window mode is "window" not "ps"
 ;
 ; EXAMPLE:
-;   idl> polyedge,x,y,/data,color=fsc_color('blue'),alpha=0.2,/transparent
+;   idl> polyedge,x,y,/data,color=cgcolor('blue'),alpha=0.2,/transparent
 ;   or, 
 ;   see below test procedures
 ;
@@ -97,7 +97,7 @@ plot,x,y,/xst,/yst
 x1=0.2 & x2=0.5
 y1=0.1 & y2=0.7
 
-polyedge,[x1,x2,x2,x1,x1],[y1,y1,y2,y2,y1],/data,color=fsc_color('blue') ;,/transparent
+polyedge,[x1,x2,x2,x1,x1],[y1,y1,y2,y2,y1],/data,color=cgcolor('blue') ;,/transparent
 
 stop
 end
@@ -120,7 +120,7 @@ tvcoord,img,x,y,/axes,color=0
 x1=1. & x2=3.
 y1=1. & y2=4.
 
-polyedge,[x1,x2,x2,x1,x1],[y1,y1,y2,y2,y1],/data,color=fsc_color('yellow'),/transparent
+polyedge,[x1,x2,x2,x1,x1],[y1,y1,y2,y2,y1],/data,color=cgcolor('yellow'),/transparent
 
 stop
 end
@@ -147,15 +147,15 @@ y1=1. & y2=4.
 mkeps,'test_org',xs=20,ys=20.
 tvcoord,img,x,y,/axes,color=0
 tvlct,r,g,b,/get
-oplot,[x1,x2,x2,x1,x1],[y1,y1,y2,y2,y1],color=fsc_color('yellow'),thick=5
+oplot,[x1,x2,x2,x1,x1],[y1,y1,y2,y2,y1],color=cgcolor('yellow'),thick=5
 epsfree
 
 ; polyfill image + edge line
 mkeps,'test_poly',xs=20,ys=20.
 tvlct,r,g,b
 tvcoord,img,x,y,/axes,color=0
-polyfill,[x1,x2,x2,x1,x1],[y1,y1,y2,y2,y1],/data,color=fsc_color('yellow')
-oplot,[x1,x2,x2,x1,x1],[y1,y1,y2,y2,y1],color=fsc_color('yellow'),thick=5
+polyfill,[x1,x2,x2,x1,x1],[y1,y1,y2,y2,y1],/data,color=cgcolor('yellow')
+oplot,[x1,x2,x2,x1,x1],[y1,y1,y2,y2,y1],color=cgcolor('yellow'),thick=5
 epsfree
 
 cnveps,'test_org.eps',/png
