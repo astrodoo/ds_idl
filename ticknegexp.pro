@@ -1,8 +1,8 @@
-FUNCTION negtickexp, axis, index, value 
+FUNCTION ticknegexp, axis, index, value 
 ;( =_=)++  =========================================================================
 ;
 ; NAME: 
-;   TICKEXP
+;   TICKNEGEXP
 ;
 ; PURPOSE:
 ;   This function is purposed to show the ticks for exponential form combined with 
@@ -57,10 +57,10 @@ window,0
 
 ; note that the value of xticks should be n-1, where n is the number of elements in xtickv
 polar_contour,a,th,alog10(r),/iso,/fill,nlevels=254,xst=5,yst=5
-axis,xaxis=0,/xst,xtickformat='negtickexp',xtickv=[-7,-5,-3,-1,1,3,5,7],xticks=7         
+axis,xaxis=0,/xst,xtickformat='ticknegexp',xtickv=[-7,-5,-3,-1,1,3,5,7],xticks=7         
 axis,xaxis=1,/xst,xtickformat='(a1)',xtickv=[-7,-5,-3,-1,1,3,5,7],xticks=7         
 
-axis,yaxis=0,/yst,ytickformat='negtickexp',ytickv=[-7,-5,-3,-1,1,3,5,7],yticks=7         
+axis,yaxis=0,/yst,ytickformat='ticknegexp',ytickv=[-7,-5,-3,-1,1,3,5,7],yticks=7         
 axis,yaxis=1,/yst,ytickformat='(a1)',ytickv=[-7,-5,-3,-1,1,3,5,7],yticks=7         
 
 end
