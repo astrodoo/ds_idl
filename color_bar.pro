@@ -255,11 +255,11 @@ if keyword_set(device) then contopt = ',/dev' $
 
 ;
 if keyword_set(log) then begin
-  cc = execute('contour,10^aux2,xx,10^yy,ystyle=5,xstyle=5,/fill,pos=position'+contopt $
-       +',levels=10^levs,/noerase,/ylog') 
+  cc = execute('contour,10.d0^aux2,xx,10.d0^yy,ystyle=5,xstyle=5,/fill,pos=position'+contopt $
+       +',levels=10.d0^levs,/noerase,/ylog') 
   if keyword_set(nlevels) then $
-  cc2 = execute('contour,10^aux2,xx,10^yy,ystyle=5,xstyle=5,pos=position'+contopt $
-       +',levels=10^levs,/noerase,/ylog') 
+  cc2 = execute('contour,10.d0^aux2,xx,10.d0^yy,ystyle=5,xstyle=5,pos=position'+contopt $
+       +',levels=10.d0^levs,/noerase,/ylog') 
 
   optlog = ',/'+axisp+'log'
   optrg  ='10^'
