@@ -48,10 +48,10 @@ epsfree
 stop
 end
 
-pro atomdb_cooling_version
+pro atomdb_cooling_comp
 
-; draw cooling function from atomdb
-; depend on atomdb data sets (apec_line.fits & apec_coco.fits) and atomdb_idl package
+; compare cooling functions from atomdb and Sutherland & Dopita (1997)
+; depend on atomdb data sets (apec_line.fits & apec_coco.fits) and atomdb_idl package, and cooling curve table (m-00.cie) for Sutherland curve.
 ; it requires to run
 ; > @init_atomdb_idl
 
@@ -70,9 +70,14 @@ if (n_elements(line2) eq 0) then $
 if (n_elements(coco2) eq 0) then $
   read_coco,atomdb_old+'/apec_coco.fits',coco2,Tc2,nc2,lambdac2
 
+sdcool_dir = '/home/astrodoo/Sutherland_CoolCurve/'
+readcol, sdcool_dir+'m-00.cie',Tlgsd, lambdalgsd, format='(f,x,x,x,x,f,x,x,x,x,x,x)'
+Tsd = 10.^Tlgsd
+lambdasd = 10.^lambdalgsd
+
 loadct,39,/sil
-mkeps,'atomdb_cooling_version',xs=20.,ys=20.*6./8.
-plot,Tl2,lambdal2+lambdac2,thick=3,yrange=[1.e-24,1.e-21],/xlog,/ylog,xtitle='Temperature (K)' $
+mkeps,'atomdb_cooling_comp',xs=20.,ys=20.*6./8.
+plot,Tl2,lambdal2+lambdac2,thick=3,yrange=[1.e-24,3.e-21],/xlog,/ylog,xtitle='Temperature (K)',/yst $
     ,ytitle=textoidl('\Lambda (erg cm^{3} s^{-1})'),title='Cooling function in CIE (from atomdb data)'
 oplot,Tl2,lambdal2,linestyle=1,thick=3
 oplot,Tc2,lambdac2,linestyle=2,thick=3
@@ -81,8 +86,10 @@ oplot,Tl,lambdal+lambdac,thick=3, color=50
 oplot,Tl,lambdal,linestyle=1,thick=3, color=50
 oplot,Tc,lambdac,linestyle=2,thick=3, color=50
 
-legend,['v2.0.2','v3.0.6','Total','Line','Continuum'],line=[-1,-1,0,1,2],psym=[-3,-3,-3,-3,-3] $
-    ,color=[0,50,0,0,0],textcolor=[0,50,0,0,0],box=0,/top,/right
+oplot,Tsd,lambdasd,thick=3, color=254
+
+legend,['v2.0.2','v3.0.6','Sutherland+97','Total','Line','Continuum'],line=[-1,-1,-1,0,1,2],psym=[-3,-3,-3,-3,-3,-3] $
+    ,color=[0,50,254,0,0,0],textcolor=[0,50,254,0,0,0],box=0,/top,/right,charsize=1.3
 
 epsfree
 stop
