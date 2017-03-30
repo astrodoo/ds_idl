@@ -9,6 +9,10 @@ pro img2data, fname, scale=scale, true=true, xlim=xlim, ylim=ylim, xlog=xlog, yl
 ;   Read image file for any type such as .png .jpg .gif,
 ;   and collect the data by mouse button
 ;
+; DEPENDENCE:
+;   This routine use 'cgColor' in Coyote library for setting color of lines.
+;   Symbol type made use of 'dsym.pro'
+;
 ; AUTHOR:
 ;   DOOSOO YOON
 ;   Department of Astronomy, UW-Madison
@@ -52,6 +56,7 @@ if not keyword_set(imgwindow) then imgwindow=0
 
 display,fname,scale=scale,true=true,/silent
 
+; find the position of the edges in the plot
 print,'### clikc the left, bottom position of the axis ###'
 cursor,x0,y0,/device,/down
 plots,x0,y0,psym=4,symsize=3,color=cgColor('blue'),/dev
@@ -66,14 +71,15 @@ x0=float(x0) & x1=float(x1) & y0=float(y0) & y1=float(y1)
 
 xdatsav = 0. & ydatsav = 0.
 
+; collect the data
 while 1 do begin
 
    cursor,xx,yy,/device,/down
 
+   if (!mouse.button eq 4) then break     ; quit if right button of the mouse is pushed. 
+
    plots, [x0,x1],[yy,yy],/dev, color=cgColor('magenta')
    plots, [xx,xx],[y0,y1],/dev, color=cgColor('magenta')
-
-   if (!mouse.button eq 4) then break     ; quit if right button of the mouse is pushed. 
 
    if not keyword_set(xlog) then begin
       xdat = (xx-x0)/(x1-x0)*(xlim[1]-xlim[0]) + xlim[0] 
@@ -97,8 +103,21 @@ endwhile
 xdatsav = xdatsav[1:n_elements(xdatsav)-1]
 ydatsav = ydatsav[1:n_elements(ydatsav)-1]
 
-if keyword_set(out) then save,filename=out,xdatsav,ydatsav
+; save the data
+; if the format is .sav, the data is saved in format of IDL sav file,
+; otherwise it is saved as normal ASCII file.
+if keyword_set(out) then begin
+    fmt = strmid(out,2,3,/reverse)
+    if (fmt eq 'sav') then begin
+       save,filename=out,xdatsav,ydatsav
+    endif else begin
+       openw,lun1,out,/get_lun
+       for i=0, n_elements(xdatsav)-1 do printf,lun1,xdatsav[i],ydatsav[i]
+       free_lun,lun1
+    endelse
+endif
 
+; reproduce the data in a separate window
 if keyword_set(reproduce) then begin
    window,xs=!d.x_size, ys=!d.y_size
 
@@ -106,7 +125,6 @@ if keyword_set(reproduce) then begin
    if keyword_set(ylog) then strylg = ',/ylog,yminor=9' else strylg=''
 
    strexe = execute('plot, xdatsav, ydatsav, psym=dsym(6,/fill), position=[x0,y0,x1,y1],/dev,/xst,/yst, xra=xlim, yra=ylim, charsize=2.5, symsize=1'+strxlg+strylg)
-
 endif
-stop
+
 end
