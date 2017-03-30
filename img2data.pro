@@ -37,7 +37,7 @@ pro img2data, fname, scale=scale, true=true, xlim=xlim, ylim=ylim, xlog=xlog, yl
 ;   xlog/ylog: in, optional, type= boolean, default= 0
 ;        if given, the axis is in logarithmic scale.
 ;   out: in, optional, type=string
-;        save the collected data to .sav file
+;        save the collected data to .sav file or normal ASCII format
 ;   reproduce: in, optional, type=boolean
 ;        if given, it opens another window and reproduce the plot with collected data points.
 ;
