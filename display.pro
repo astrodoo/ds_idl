@@ -46,7 +46,7 @@ endif
 if not keyword_set(true) then true=1
 if not keyword_set(scale) then scale=1.
 
-window,xsize=info.dimensions[0]*scale,ysize=info.dimensions[1]*scale,/free
+window,xsize=info.dimensions[0]*scale,ysize=info.dimensions[1]*scale,/free 
 if (info.has_palette) then begin
    tvlct,r_org,g_org,b_org,/get
    img = read_image(fname, rr, gg, bb)
@@ -68,5 +68,4 @@ endif else begin
    endcase
    tv,img2,true=true
 endelse
-stop 
 end
